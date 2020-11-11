@@ -17,7 +17,7 @@ import Loader from "./components/Loader";
 const theme = {
   global: {
     colors: {
-      brand: "#3dc2ff",
+      brand: "#001623",
     },
     font: {
       family: "Roboto",
