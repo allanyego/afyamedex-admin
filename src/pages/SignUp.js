@@ -18,6 +18,7 @@ function SignUp() {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      delete values.confirmPassword;
       const { data } = await signUp({
         ...values,
         accountType: USER.ACCOUNT_TYPES.ADMIN,
