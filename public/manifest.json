@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Afyamedex",
+  "name": "Admin app for Afyamedex",
   "icons": [
     {
       "src": "favicon.ico",
