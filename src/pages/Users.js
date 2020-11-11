@@ -129,7 +129,7 @@ function Users() {
           <UnsetUsers
             {...{
               users: unsetUsers,
-              updateUser: updateUserFactory("patients"),
+              updateUser: updateUserFactory("unset"),
               fetchUsers: fetchUnsetUsers,
             }}
           />
