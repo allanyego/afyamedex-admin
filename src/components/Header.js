@@ -10,6 +10,7 @@ import {
 import {
   AppsRounded,
   Article,
+  BarChart,
   Group,
   Logout,
   User,
@@ -19,7 +20,6 @@ import {
 import { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAppContext } from "../context/app";
-import { clear } from "../util/storage";
 
 import AppBar from "./AppBar";
 
@@ -56,6 +56,10 @@ function Header({ toggleSideBar, showInviteModal }) {
 
   const ConditionsAnchor = () => (
     <NavLink to="/app/conditions" label="Conditions" Icon={Article} />
+  );
+
+  const ReportsAnchor = () => (
+    <NavLink to="/app/reports" label="Reports" Icon={BarChart} />
   );
 
   const UserOptions = () => (
@@ -117,6 +121,15 @@ function Header({ toggleSideBar, showInviteModal }) {
             </Box>
           ),
         },
+        {
+          onClick: () => history.push("/app/reports"),
+          label: (
+            <Box direction="row" align="center" justify="between" fill>
+              <Text size="small">Reports</Text>
+              <BarChart />
+            </Box>
+          ),
+        },
       ]}
     />
   );
@@ -132,6 +145,7 @@ function Header({ toggleSideBar, showInviteModal }) {
             <Box direction="row" align="center" gap="small">
               <UsersAnchor />
               <ConditionsAnchor />
+              <ReportsAnchor />
             </Box>
           ) : (
             <MenuOptions />

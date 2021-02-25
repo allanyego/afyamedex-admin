@@ -20,7 +20,7 @@ function ConditionsList({ conditions, fetchConditions, updateCondition }) {
       items={conditions}
       fetchItems={fetchConditions}
       updateItem={updateCondition}
-      forUsers={false}
+      entityName="conditions"
     />
   );
 }

@@ -1,6 +1,8 @@
 import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import { useAppContext } from "./context/app";
 import Conditions from "./pages/Conditions";
+import Reports from "./pages/Reports";
+import Sessions from "./pages/Sessions";
 
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -13,6 +15,8 @@ function Main() {
     <Switch>
       <Route path={`${path}/users`} component={Users} exact />
       <Route path={`${path}/conditions`} component={Conditions} exact />
+      <Route path={`${path}/reports`} component={Reports} exact />
+      <Route path={`${path}/reports/detail`} component={Sessions} exact />
       <Route render={() => <Redirect to={`${url}/users`} />} />
     </Switch>
   );

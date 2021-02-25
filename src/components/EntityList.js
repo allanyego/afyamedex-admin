@@ -8,6 +8,92 @@ import ToggleDisabled from "./ToggleDisabled";
 import { USER } from "../util/constants";
 import ucFirst from "../util/uc-first";
 import DisabledIndicatorHelp from "./DisabledIndicatorHelp";
+import { getUser } from "../http/users";
+import useToastManager from "../util/hooks/toast-manager";
+
+const UserColumn = ({ userId }) => {
+  const [user, setUser] = useState(null);
+  const { onError } = useToastManager();
+
+  const fetchUser = async () => {
+    try {
+      const { data } = await getUser(userId);
+      setUser(data);
+    } catch (error) {
+      onError(error.message);
+    }
+  };
+
+  useEffect(() => fetchUser(), []);
+
+  return (
+    <Text className="text-capitalize">
+      {user ? user.fullName : "Loading..."}
+    </Text>
+  );
+};
+
+const paymentColumns = [
+  {
+    // property: "_id",
+    header: <Text>Patient</Text>,
+    render: (datum) => {
+      return (
+        <Box direction="row" align="center" gap="xsmall">
+          <UserColumn userId={datum._id.patient} />
+        </Box>
+      );
+    },
+  },
+  {
+    // property: "_id",
+    header: "Professional",
+    render: (datum) => <UserColumn userId={datum._id.professional} />,
+  },
+  {
+    property: "totalPayments",
+    header: "Total Payments",
+    render: (datum) => (
+      <Text size="small" weight="bold" textAlign="end">
+        {datum.totalPayments}
+      </Text>
+    ),
+  },
+  {
+    property: "appointmentCount",
+    header: "Appointment Count",
+    render: (datum) => (
+      <Text size="small" weight="bold" textAlign="end">
+        {datum.appointmentCount}
+      </Text>
+    ),
+  },
+];
+
+const sessionColumns = [
+  {
+    property: "type",
+    header: "Type",
+  },
+  {
+    property: "date",
+    header: "Date",
+    render: (datum) => (
+      <Text size="small" weight="bold">
+        {dayjs(datum.date).format("MMM D, YYYY")}
+      </Text>
+    ),
+  },
+  {
+    property: "amount",
+    header: "Amount Billed",
+    render: (datum) => (
+      <Text size="small" weight="bold" textAlign="end">
+        {datum.amount}
+      </Text>
+    ),
+  },
+];
 
 const userColumns = [
   {
@@ -56,7 +142,7 @@ const userColumns = [
           {!isPatient && datum.accountType && (
             <>
               <Text size="small">
-                <i>{datum.speciality.join(", ")}</i>
+                <i>{datum.speciality}</i>
               </Text>
               <Text size="small">
                 {datum.experience
@@ -70,7 +156,7 @@ const userColumns = [
     },
   },
   {
-    property: "createdAd",
+    property: "createdAt",
     header: "Joined",
     render: (datum) => (
       <Text size="small" weight="bold">
@@ -121,11 +207,18 @@ const conditionColumns = [
   },
 ];
 
-function EntityList({ items, fetchItems, updateItem, forUsers = true }) {
+function EntityList({
+  items,
+  fetchItems,
+  updateItem,
+  handleSelect,
+  help,
+  entityName = "users",
+}) {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleRowClick = ({ datum }) => {
-    setSelectedItem(datum);
+    handleSelect ? handleSelect(datum) : setSelectedItem(datum);
   };
 
   const clearSelected = () => setSelectedItem(null);
@@ -136,7 +229,14 @@ function EntityList({ items, fetchItems, updateItem, forUsers = true }) {
     }
   }, []);
 
-  const columnssForDisaply = forUsers ? userColumns : conditionColumns;
+  const columnssForDisaply =
+    entityName === "users"
+      ? userColumns
+      : entityName === "conditions"
+      ? conditionColumns
+      : entityName === "sessions"
+      ? sessionColumns
+      : paymentColumns;
 
   return !items ? (
     <Loader />
@@ -153,7 +253,7 @@ function EntityList({ items, fetchItems, updateItem, forUsers = true }) {
         clearSelected={clearSelected}
       />
 
-      <DisabledIndicatorHelp />
+      {help || <DisabledIndicatorHelp />}
 
       <DataTable
         onClickRow={handleRowClick}

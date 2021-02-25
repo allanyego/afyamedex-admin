@@ -2,7 +2,7 @@ import { SERVER_URL } from "../util/constants";
 
 export default async function request(
   url,
-  { method = "GET", data, headers = {}, multiPart = false }
+  { method = "GET", data, headers = {}, multiPart = false } = {}
 ) {
   const opts = {
     method,

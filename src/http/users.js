@@ -15,6 +15,10 @@ export async function getUsers(token, { unset = false, patient = false } = {}) {
   });
 }
 
+export async function getUser(userId) {
+  return await request(`${BASE_URL}/${userId}`);
+}
+
 export async function inviteAdmin(token, email) {
   return await request(`${BASE_URL}/invite`, {
     method: "POST",
