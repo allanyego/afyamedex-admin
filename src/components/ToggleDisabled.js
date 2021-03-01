@@ -27,19 +27,19 @@ function ToggleDisabled({ item, onUpdate, clearSelected }) {
         ? await editUser(currentUser.token, item._id, {
             disabled,
           })
-        : await editCondition(currentUser.token, item._id, {
+        : await editCondition(currentUser.token, item.id, {
             disabled,
           });
 
-      onUpdate(item._id, {
+      onUpdate(item._id || item.id, {
         disabled,
       });
       onSuccess("Update successfull.");
       closeModal();
+      setFetching(false);
     } catch (error) {
+      setFetching(false);
       onError(error.message);
-    } finally {
-      isMounted && setFetching(false);
     }
   };
 

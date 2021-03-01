@@ -188,11 +188,11 @@ const conditionColumns = [
     ),
   },
   {
-    property: "body",
-    header: "Body",
+    property: "description",
+    header: "Description",
     render: (datum) => (
       <Box>
-        <Text truncate>{datum.body}</Text>
+        <Text truncate>{datum.description}</Text>
       </Box>
     ),
   },

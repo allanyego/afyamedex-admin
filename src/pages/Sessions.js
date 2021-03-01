@@ -1,4 +1,4 @@
-import { Box, Heading, Text } from "grommet";
+import { Box, Button, Heading, Text } from "grommet";
 import { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import EntityList from "../components/EntityList";
@@ -47,6 +47,9 @@ function Sessions() {
         <>
           <div>
             <Box direction="column" margin="20px 0">
+              <Box direction="row" justify="start">
+                <Button label="Back" default onClick={history.goBack} />
+              </Box>
               <Header label="Patient" text={sessions[0].patient.fullName} />
               <Header
                 label="Professional"
